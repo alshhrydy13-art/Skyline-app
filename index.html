@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>أُفُق | SKYLINE</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap');
+
+:root{
+ --bg:#080d18;--panel:#101a2b;--panel2:#152238;
+ --text:#f4f7ff;--muted:#9aabc4;--blue:#168cff;
+ --cyan:#42c7ff;--border:#243650;--shadow:0 15px 40px #0005;
+}
+body.light{
+ --bg:#f1f6fd;--panel:#fff;--panel2:#e8f1fc;
+ --text:#12233b;--muted:#64758d;--border:#d7e3f2;
+ --shadow:0 10px 30px #24466a15;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);transition:.3s}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+header{
+ position:sticky;top:0;z-index:50;background:var(--bg);
+ border-bottom:1px solid var(--border);padding:12px 5%;
+ display:flex;justify-content:space-between;align-items:center;gap:15px;
+}
+.logo{font-size:25px;font-weight:800;color:var(--blue);line-height:1.2}
+.logo small{display:block;font-size:10px;letter-spacing:3px;color:var(--muted);direction:ltr}
+nav{display:flex;gap:8px;flex-wrap:wrap}
+nav button,.icon-btn{border:0;background:transparent;color:var(--text);padding:8px 12px;border-radius:10px}
+nav button:hover,.icon-btn:hover{background:var(--panel2)}
+.container{width:min(1150px,92%);margin:auto}
+.hero{
+ margin:30px auto;padding:55px 25px;border:1px solid var(--border);
+ border-radius:25px;
+ background:radial-gradient(circle at 15% 20%,#168cff33,transparent 35%),linear-gradient(135deg,#101e35,#080d18);
+ text-align:center;overflow:hidden;
+}
+body.light .hero{background:linear-gradient(135deg,#e3f2ff,#fff)}
+.hero h1{font-size:clamp(30px,6vw,54px);margin:0}
+.hero h1 span{color:var(--cyan)}
+.hero p{color:var(--muted);max-width:650px;margin:15px auto}
+.search{display:flex;max-width:550px;margin:25px auto 0;gap:8px}
+input,select,textarea{
+ width:100%;padding:12px 14px;border:1px solid var(--border);
+ border-radius:12px;background:var(--panel);color:var(--text);outline:none;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--blue)}
+.primary{
+ border:0;border-radius:12px;padding:12px 20px;
+ background:linear-gradient(120deg,var(--blue),#0756bb);
+ color:white;font-weight:700;white-space:nowrap;
+}
+.secondary{border:1px solid var(--blue);border-radius:12px;padding:10px 16px;background:transparent;color:var(--blue)}
+section{padding:25px 0;scroll-margin-top:90px}
+.section-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:18px}
+h2{font-size:25px;margin:0}
+.subtitle{color:var(--muted);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.card{
+ background:var(--panel);border:1px solid var(--border);
+ border-radius:18px;overflow:hidden;box-shadow:var(--shadow);transition:.25s;
+}
+.card:hover{transform:translateY(-4px);border-color:var(--blue)}
+.card img{width:100%;height:155px;object-fit:cover;display:block;background:var(--panel2)}
+.card-content{padding:16px}
+.card h3{margin:0 0 7px}
+.card p{color:var(--muted);font-size:13px;min-height:42px}
+.tag{display:inline-block;background:#168cff20;color:var(--cyan);border-radius:20px;padding:4px 10px;font-size:11px;margin-bottom:8px}
+.card button{width:100%;margin-top:8px}
+.feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.feature{padding:22px;background:var(--panel);border:1px solid var(--border);border-radius:18px}
+.feature .emoji{font-size:30px}
+.feature h3{margin:8px 0}
+.feature p{color:var(--muted);font-size:13px}
+.tool{background:var(--panel);border:1px solid var(--border);border-radius:20px;padding:22px;max-width:700px;margin:auto}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:13px;margin:15px 0}
+label{display:block;font-size:13px;margin-bottom:7px;color:var(--muted)}
+.result{margin-top:15px;padding:15px;border-radius:12px;background:var(--panel2);line-height:1.9}
+.day{border-right:3px solid var(--blue);padding:8px 15px;margin:12px 0;background:var(--panel2);border-radius:8px}
+footer{margin-top:40px;padding:30px 15px;text-align:center;background:var(--panel);border-top:1px solid var(--border);color:var(--muted)}
+footer strong{color:var(--blue)}
+@media(max-width:750px){
+ header{flex-wrap:wrap}
+ nav{order:3;width:100%;overflow-x:auto;flex-wrap:nowrap}
+ nav button{white-space:nowrap;font-size:12px}
+ .search{flex-direction:column}
+ .hero{padding:40px 16px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+ <div class="logo">أُفُق<small>SKYLINE</small></div>
+ <nav>
+  <button onclick="go('home')">الرئيسية</button>
+  <button onclick="go('world')">العالم</button>
+  <button onclick="go('saudi')">السعودية</button>
+  <button onclick="go('planner')">رحلتي</button>
+  <button onclick="go('services')">الخدمات</button>
+  <button onclick="go('tools')">الأدوات</button>
+  <button onclick="go('profile')">حسابي</button>
+ </nav>
+ <button class="icon-btn" onclick="toggleTheme()" title="تغيير المظهر">☀️ / 🌙</button>
+</header>
+
+<main class="container">
+
+<section id="home">
+ <div class="hero">
+  <span class="tag">اكتشف العالم بطريقتك</span>
+  <h1>العالم أقرب <span>مما تتخيل</span></h1>
+  <p>مع أُفُق، اكتشف وجهات جديدة، تعرّف على ثقافات العالم، وخطط لرحلتك القادمة في مكان واحد.</p>
+  <div class="search">
+   <input id="globalSearch" placeholder="إلى أين تريد أن تسافر؟">
+   <button class="primary" onclick="searchPlaces()">ابدأ الاستكشاف</button>
+  </div>
+ </div>
+
+ <div class="section-head">
+  <div><h2>ابدأ رحلتك</h2><div class="subtitle">كل ما تحتاجه لتجربة سفر أسهل</div></div>
+ </div>
+
+ <div class="feature-grid">
+  <div class="feature"><div class="emoji">🌍</div><h3>اكتشف العالم</h3><p>تعرف على دول ومدن وثقافات مختلفة.</p><button class="secondary" onclick="go('world')">استكشف الآن</button></div>
+  <div class="feature"><div class="emoji">🗺️</div><h3>خطط رحلتك</h3><p>أنشئ جدولًا سياحيًا يناسب مدة إقامتك.</p><button class="secondary" onclick="go('planner')">خطط الآن</button></div>
+  <div class="feature"><div class="emoji">💱</div><h3>تحويل العملات</h3><p>تعرف على قيمة العملات المختلفة.</p><button class="secondary" onclick="go('tools')">جرّب الأداة</button></div>
+ </div>
+</section>
+
+<section id="world">
+ <div class="section-head">
+  <div><h2>العالم أقرب مما تتخيل 🌎</h2><div class="subtitle">وجهات مختارة لتبدأ مغامرتك</div></div>
+ </div>
+ <div class="grid" id="destinations"></div>
+</section>
+
+<section id="saudi">
+ <div class="section-head">
+  <div><h2>اكتشف السعودية 🇸🇦</h2><div class="subtitle">من الجبال إلى الشواطئ والتاريخ</div></div>
+ </div>
+ <div class="grid" id="saudiPlaces"></div>
+</section>
+
+<section id="planner">
+ <div class="section-head">
+  <div><h2>ابدأ رحلتك ✈️</h2><div class="subtitle">أنشئ جدولًا سياحيًا تجريبيًا حسب مدة رحلتك</div></div>
+ </div>
+ <div class="tool">
+  <div class="form-grid">
+   <div><label>الوجهة</label><select id="tripDestination">
+    <option>فرنسا</option><option>تركيا</option><option>مصر</option><option>إندونيسيا</option><option>اليابان</option><option>العلا</option>
+   </select></div>
+   <div><label>عدد الأيام</label><input type="number" id="tripDays" min="1" max="14" value="3"></div>
+   <div><label>نوع الرحلة</label><select id="tripType">
+    <option>استرخاء</option><option>مغامرات</option><option>ثقافة وتاريخ</option><option>تسوق</option><option>عائلية</option>
+   </select></div>
+  </div>
+  <button class="primary" onclick="buildTrip()">أنشئ جدولي السياحي</button>
+  <div id="tripResult"></div>
+ </div>
+</section>
+
+<section id="services">
+ <div class="section-head">
+  <div><h2>خدمات السفر</h2><div class="subtitle">احتياجات رحلتك في مكان واحد</div></div>
+ </div>
+ <div class="feature-grid">
+  <div class="feature"><div class="emoji">✈️</div><h3>حجوزات الطيران</h3><p>واجهة مستقبلية للبحث عن الرحلات ومقارنة الخيارات.</p><button class="secondary" onclick="serviceMessage('حجوزات الطيران')">استكشف الخدمة</button></div>
+  <div class="feature"><div class="emoji">🏨</div><h3>الفنادق والإقامة</h3><p>خطط لإقامتك واختر مكانًا يناسب رحلتك.</p><button class="secondary" onclick="serviceMessage('الفنادق والإقامة')">استكشف الخدمة</button></div>
+  <div class="feature"><div class="emoji">🚗</div><h3>استئجار السيارات</h3><p>تعرف على خيارات التنقل أثناء السفر.</p><button class="secondary" onclick="serviceMessage('استئجار السيارات')">استكشف الخدمة</button></div>
+  <div class="feature"><div class="emoji">🩺</div><h3>التأمين الطبي للسفر</h3><p>تعرف على أهمية تغطية التأمين وإمكانية تمديدها وفق شروط المزود.</p><button class="secondary" onclick="serviceMessage('التأمين الطبي للسفر')">استكشف الخدمة</button></div>
+ </div>
+</section>
+
+<section id="tools">
+ <div class="section-head">
+  <div><h2>أدوات المسافر 🧭</h2><div class="subtitle">أدوات تساعدك أثناء رحلتك</div></div>
+ </div>
+ <div class="grid">
+  <div class="tool">
+   <h3>💱 تحويل العملات</h3>
+   <label>المبلغ بالريال السعودي</label>
+   <input id="amount" type="number" value="100">
+   <label style="margin-top:12px">العملة المراد التحويل إليها</label>
+   <select id="currency">
+    <option value="0.267">الدولار الأمريكي USD</option>
+    <option value="0.23">اليورو EUR</option>
+    <option value="40">الليرة التركية TRY</option>
+    <option value="22">الجنيه المصري EGP</option>
+    <option value="40">الروبية الإندونيسية × 1000 IDR</option>
+    <option value="0.15">الين الياباني × 100 JPY</option>
+   </select>
+   <button class="primary" style="margin-top:12px;width:100%" onclick="convertCurrency()">تحويل المبلغ</button>
+   <div id="currencyResult" class="result">أدخل المبلغ واضغط تحويل.</div>
+   <p class="subtitle">قيم توضيحية ثابتة للتجربة وليست أسعار صرف مباشرة.</p>
+  </div>
+
+  <div class="tool">
+   <h3>🌐 الترجمة</h3>
+   <label>النص المراد ترجمته</label>
+   <textarea id="translateText" rows="3" placeholder="اكتب النص هنا..."></textarea>
+   <label style="margin-top:12px">اللغة</label>
+   <select id="language">
+    <option value="en">الإنجليزية</option><option value="fr">الفرنسية</option>
+    <option value="tr">التركية</option><option value="es">الإسبانية</option>
+   </select>
+   <button class="primary" style="margin-top:12px;width:100%" onclick="translateText()">ترجم النص</button>
+   <div id="translationResult" class="result">ستظهر الترجمة هنا.</div>
+   <p class="subtitle">تحتاج هذه الميزة إلى اتصال الإنترنت وخدمة ترجمة خارجية.</p>
+  </div>
+ </div>
+</section>
+
+<section id="profile">
+ <div class="section-head">
+  <div><h2>ملفي الشخصي 👤</h2><div class="subtitle">مساحتك الخاصة في أُفُق</div></div>
+ </div>
+ <div class="tool">
+  <h3>مرحبًا بك في أُفُق</h3>
+  <label>اسم المسافر</label>
+  <input id="travelerName" placeholder="اكتب اسمك">
+  <button class="primary" style="margin-top:12px" onclick="saveProfile()">حفظ الاسم</button>
+  <div id="profileResult" class="result">أهلاً بك! ابدأ رحلتك معنا.</div>
+  <h3 style="margin-top:25px">رحلاتي المحفوظة</h3>
+  <div id="savedTrips">لا توجد رحلات محفوظة حتى الآن.</div>
+ </div>
+</section>
+
+<section id="future">
+ <div class="section-head"><div><h2>رؤيتنا المستقبلية 🚀</h2><div class="subtitle">أُفُق مشروع قابل للتوسع والتطوير</div></div></div>
+ <div class="feature-grid">
+  <div class="feature"><div class="emoji">🤖</div><h3>مساعد سفر ذكي</h3><p>اقتراحات سياحية تتوافق مع اهتمامات المسافر.</p></div>
+  <div class="feature"><div class="emoji">📍</div><h3>خرائط تفاعلية</h3><p>استكشاف المواقع وتنظيم مسارات الزيارة.</p></div>
+  <div class="feature"><div class="emoji">🔔</div><h3>تنبيهات الرحلة</h3><p>تذكيرات بمواعيد السفر والحجوزات.</p></div>
+ </div>
+</section>
+
+</main>
+
+<footer>
+ <div class="logo">أُفُق | SKYLINE</div>
+ <p>العالم أقرب مما تتخيل</p>
+ <p>© 2026 جميع الحقوق محفوظة</p>
+ <p>مشروع سياحي رقمي تجريبي</p>
+</footer>
+
+<script>
+const destinations=[
+ {name:"فرنسا",flag:"🇫🇷",city:"باريس",desc:"الفن والأزياء والمعالم التاريخية.",img:"https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800"},
+ {name:"تركيا",flag:"🇹🇷",city:"إسطنبول",desc:"التاريخ والطبيعة والأسواق.",img:"https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=800"},
+ {name:"مصر",flag:"🇪🇬",city:"القاهرة",desc:"الحضارة المصرية والمعالم الأثرية.",img:"https://images.unsplash.com/photo-1539768942893-daf53e448371?w=800"},
+ {name:"إندونيسيا",flag:"🇮🇩",city:"بالي",desc:"الجزر والطبيعة والشواطئ.",img:"https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800"},
+ {name:"اليابان",flag:"🇯🇵",city:"طوكيو",desc:"التقنية والتقاليد والطبيعة.",img:"https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800"}
+];
+
+const saudi=[
+ {name:"العلا",desc:"تكوينات صخرية وتراث تاريخي.",img:"https://images.unsplash.com/photo-1679056251071-aab5fb606158?auto=format&fit=crop&w=800&q=85"},
+ {name:"جدة",desc:"واجهة بحرية وتاريخ عريق.",img:"https://images.unsplash.com/photo-1578895101408-1a36b834405b?w=800"},
+ {name:"أبها",desc:"جبال خضراء وأجواء جميلة.",img:"https://images.unsplash.com/photo-1660841699513-bd3d3322c17f?auto=format&fit=crop&w=800&q=85"},
+ {name:"الرياض",desc:"عاصمة تجمع الحداثة والتراث.",img:"https://images.unsplash.com/photo-1586724237569-f3d0c1dee8c6?w=800"}
+];
+
+function go(id){
+ document.getElementById(id).scrollIntoView({behavior:"smooth"});
+}
+
+function makeCard(item,isSaudi=false){
+ return `
+ <article class="card">
+  <img src="${item.img}" alt="${item.name}" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/800x500/101a2b/42c7ff?text=SKYLINE'">
+  <div class="card-content">
+   <span class="tag">${isSaudi?"وجهة سعودية":"وجهة عالمية"}</span>
+   <h3>${item.flag||"📍"} ${item.name}</h3>
+   <p>${item.city?item.city+" — ":""}${item.desc}</p>
+   <button class="secondary" onclick="showDestination('${item.name}')">اكتشف الوجهة</button>
+  </div>
+ </article>`;
+}
+
+document.getElementById("destinations").innerHTML=destinations.map(x=>makeCard(x)).join("");
+document.getElementById("saudiPlaces").innerHTML=saudi.map(x=>makeCard(x,true)).join("");
+
+function showDestination(name){
+ const all=[...destinations,...saudi];
+ const item=all.find(x=>x.name===name);
+ if(!item)return;
+ alert("مرحبًا بك في "+item.name+"!\n"+item.desc+"\n\nيمكنك إضافة معلومات تفصيلية عن هذه الوجهة في الإصدارات القادمة.");
+}
+
+function searchPlaces(){
+ const q=document.getElementById("globalSearch").value.trim();
+ if(!q){alert("اكتب اسم الدولة أو المدينة أولًا.");return;}
+ const all=[...destinations,...saudi];
+ const found=all.find(x=>x.name.includes(q)||((x.city||"").includes(q)));
+ if(found){showDestination(found.name);}
+ else{alert("لم نجد هذه الوجهة ضمن قائمة الوجهات التجريبية.");}
+}
+
+function buildTrip(){
+ const destination=document.getElementById("tripDestination").value;
+ const days=Number(document.getElementById("tripDays").value);
+ const type=document.getElementById("tripType").value;
+ const result=document.getElementById("tripResult");
+ if(!Number.isInteger(days)||days<1||days>14){
+  result.innerHTML="الرجاء إدخال عدد أيام من 1 إلى 14.";
+  return;
+ }
+ let html=`<div class="result"><h3>جدول رحلتك إلى ${destination}</h3><p>نوع الرحلة: ${type}</p>`;
+ for(let i=1;i<=days;i++){
+  let activity=type==="استرخاء"?"استمتع بالمقاهي والأماكن الهادئة":
+   type==="مغامرات"?"اكتشف نشاطًا جديدًا وتجربة مختلفة":
+   type==="ثقافة وتاريخ"?"زر المعالم التاريخية والمتاحف":
+   type==="تسوق"?"استكشف الأسواق ومراكز التسوق":"اختر نشاطًا يناسب جميع أفراد العائلة";
+  html+=`<div class="day"><strong>اليوم ${i}</strong><br>${activity} في ${destination}.</div>`;
+ }
+ html+="<button class='primary' onclick='saveTrip()'>حفظ الرحلة</button></div>";
+ result.innerHTML=html;
+}
+
+function saveTrip(){
+ const name=document.getElementById("tripDestination").value;
+ const days=document.getElementById("tripDays").value;
+ const type=document.getElementById("tripType").value;
+ let trips=JSON.parse(localStorage.getItem("skylineTrips")||"[]");
+ trips.push({name,days,type});
+ localStorage.setItem("skylineTrips",JSON.stringify(trips));
+ renderTrips();
+ alert("تم حفظ الرحلة على هذا المتصفح.");
+}
+
+function renderTrips(){
+ const trips=JSON.parse(localStorage.getItem("skylineTrips")||"[]");
+ document.getElementById("savedTrips").innerHTML=trips.length?
+ trips.map((t,i)=>`<div class="day"><strong>${t.name}</strong><br>${t.days} أيام — ${t.type} <button class="secondary" onclick="deleteTrip(${i})">حذف</button></div>`).join("")
+ :"لا توجد رحلات محفوظة حتى الآن.";
+}
+
+function deleteTrip(i){
+ let trips=JSON.parse(localStorage.getItem("skylineTrips")||"[]");
+ trips.splice(i,1);
+ localStorage.setItem("skylineTrips",JSON.stringify(trips));
+ renderTrips();
+}
+
+function convertCurrency(){
+ const amount=Number(document.getElementById("amount").value);
+ const rate=Number(document.getElementById("currency").value);
+ if(!Number.isFinite(amount)||amount<0){
+  document.getElementById("currencyResult").textContent="أدخل مبلغًا صحيحًا.";
+  return;
+ }
+ document.getElementById("currencyResult").textContent=
+ "الناتج التقريبي: "+(amount*rate).toLocaleString("en-US",{maximumFractionDigits:2});
+}
+
+async function translateText(){
+ const text=document.getElementById("translateText").value.trim();
+ const lang=document.getElementById("language").value;
+ const out=document.getElementById("translationResult");
+ if(!text){out.textContent="اكتب النص المراد ترجمته أولًا.";return;}
+ out.textContent="جارٍ محاولة الترجمة...";
+ try{
+  const url="https://api.mymemory.translated.net/get?q="+encodeURIComponent(text)+"&langpair=ar|"+lang;
+  const response=await fetch(url);
+  const data=await response.json();
+  if(data.responseStatus===200){out.textContent=data.responseData.translatedText;}
+  else{out.textContent="تعذرت الترجمة حاليًا. حاول لاحقًا.";}
+ }catch(error){
+  out.textContent="تعذر الاتصال بخدمة الترجمة. تحقق من الإنترنت.";
+ }
+}
+
+function saveProfile(){
+ const name=document.getElementById("travelerName").value.trim();
+ if(!name){alert("اكتب اسمك أولًا.");return;}
+ localStorage.setItem("skylineName",name);
+ document.getElementById("profileResult").textContent="أهلًا بك يا "+name+"! نتمنى لك رحلة ممتعة مع أُفُق.";
+}
+
+function serviceMessage(name){
+ alert("خدمة "+name+" ضمن خطة تطوير أُفُق. هذه الواجهة تجريبية ولا تنفذ حجوزات فعلية حتى الآن.");
+}
+
+function toggleTheme(){
+ document.body.classList.toggle("light");
+ localStorage.setItem("skylineTheme",document.body.classList.contains("light")?"light":"dark");
+}
+
+if(localStorage.getItem("skylineTheme")==="light"){
+ document.body.classList.add("light");
+}
+const savedName=localStorage.getItem("skylineName");
+if(savedName){
+ document.getElementById("travelerName").value=savedName;
+ document.getElementById("profileResult").textContent="أهلًا بك يا "+savedName+"!";
+}
+renderTrips();
+</script>
+
+</body>
+</html>
